@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Harsh Name | Personal Profile</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="chatbot.css">
   </head>
   <body>
     <header class="site-header">
@@ -52,19 +53,40 @@
               I have used HTML, CSS, and JavaScript to build this app.</p>
           </li>
           <li>
-            <a href="">
-              PLACEHOLDER Project Two
+            <a href="https://github.com/HARSH1-rgb/python-basics-25bcon1092-factorial">
+              Factorial Program
             </a>
-            <p>PLACEHOLDER short description of project two and your role.</p>
+            <p>A simple factorial program to calculate factorial of a given Number</p>
           </li>
           <li>
-            <a href="">
-              PLACEHOLDER Project Three
+            <a href="https://github.com/HARSH1-rgb/python-basics-25bcon1092-fibonacci">
+              Fibonacci Program
             </a>
-            <p>PLACEHOLDER short description of project three and your role.</p>
+            <p>A simple Fibonacci program to show fibonacci or a number</p>
           </li>
         </ul>
       </section>
+      <section id="weather-section" class="weather-section">
+        <h2>Live Weather Checker</h2>
+        <p>Enter a city to check its current weather.</p>
+        <div class="weather-controls">
+        <input id="cityInput" type="text" placeholder="Enter city (e.g., Jaipur)" />
+        <button id="weatherButton" type="button">Get Weather</button>
+        </div>
+        <p id="weatherResult" aria-live="polite">Enter a city and click Get Weather.</p>
+        </section>
+        <section id="portfolio-chatbot" class="chatbot-section">
+          <h2>Ask My Portfolio Chatbot</h2>
+          <p>Ask a question and get a response from the AI.</p>
+          <div id="chatMessages" class="chat-messages" aria-live="polite">
+          <p class="bot-message">Hello! Ask me something about this portfolio.</p>
+          </div>
+          <form id="chatForm" class="chat-form">
+          <input id="chatInput" type="text" placeholder="Type your question" required>
+          <button id="chatSend" type="submit">Send</button>
+          </form>
+          <p id="chatStatus" aria-live="polite"></p>
+          </section>
     </main>
 
     <footer class="site-footer">
@@ -76,5 +98,7 @@
     </footer>
     <button id="themeToggle">Switch to Dark Mode</button>
     <script src="script.js"></script>
+    <script src="config.js"></script>
+    <script src="chatbot.js"></script>
   </body>
 </html>
