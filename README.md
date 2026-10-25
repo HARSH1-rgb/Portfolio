@@ -1,104 +1,216 @@
 # Harsh Jangid — Personal Portfolio
 
-A simple, responsive personal portfolio website introducing me, highlighting my technical skills, and showcasing my projects.
+A responsive personal portfolio website showcasing my background, technical skills, projects, and interactive features. The website includes a live weather checker and an AI-powered portfolio chatbot integrated with the Groq API.
 
 **Live Website:** [View Portfolio](https://portfolio-sandy-two-2h1yeodf5u.vercel.app)
 
-## About the Project
+## Overview
 
-This project is a personal portfolio built using HTML, CSS, and vanilla JavaScript. It provides a central place to learn about me, explore my skills, and access my projects.
+This portfolio serves as a central place to explore my work, learn about my technical interests, and access my project repositories. It is built with HTML, CSS, and vanilla JavaScript, with a Vercel serverless function handling AI chatbot requests.
 
-The website uses a clean layout with a blue-and-gold color palette, responsive styling, and a dark-mode option.
+The website uses a blue-and-gold visual theme, supports dark mode, and includes interactive features that work directly in the browser.
 
 ## Features
 
-- **About Section:** A short introduction and personal profile.
-- **Skills Section:** Displays technical skills, including HTML, CSS, MySQL, Python, C, and C++.
-- **Projects Section:** Provides links and descriptions for selected projects.
+### Portfolio
+
+- **About Section:** Introduction and profile image.
+- **Skills Section:** Displays technical skills, including HTML, CSS, JavaScript, Python, C, and C++.
+- **Projects Section:** Project descriptions, repository links, and a searchable project list.
+- **Contact Section:** Email and GitHub links.
+- **Responsive Layout:** Adapts the page layout to different screen sizes.
 - **Dark Mode:** Switch between light and dark themes.
-- **Smooth Navigation:** Navigate between sections with smooth scrolling.
-- **Dynamic Copyright Year:** Automatically updates the year displayed in the footer.
-- **Responsive Layout:** CSS adjustments for smaller screens.
-- **GitHub Integration:** Links to project repositories.
+- **Smooth Navigation:** Navigate between page sections.
+- **Dynamic Copyright Year:** Automatically updates the year in the footer.
+
+### Live Weather Checker
+
+- Search for a city to retrieve its current weather.
+- Displays the temperature, weather description, and humidity.
+- Handles common errors, including invalid city names, API errors, and network failures.
+
+The weather checker uses the OpenWeather API.
+
+### AI Portfolio Chatbot
+
+- Answers questions about the portfolio, skills, projects, and background.
+- Uses the Groq API to generate AI responses.
+- Includes local greeting responses that do not require an AI API request.
+- Sends portfolio information as context to help answer portfolio-related questions.
+- Maintains a short conversation history for follow-up questions.
+- Displays loading and error messages during requests.
+
+The chatbot communicates with a Vercel serverless API endpoint. The Groq API key is stored as a server-side environment variable rather than being included in frontend JavaScript.
 
 ## Technologies Used
 
 | Technology | Purpose |
 |---|---|
-| HTML5 | Website structure and content |
-| CSS3 | Styling, layout, colors, and responsive design |
-| JavaScript | Theme switching, smooth navigation, and dynamic year |
-| GitHub | Source code management |
+| HTML5 | Page structure and semantic markup |
+| CSS3 | Styling, layout, responsive design, and themes |
+| JavaScript | Interactive features and frontend behavior |
+| Groq API | AI-generated chatbot responses |
+| OpenWeather API | Current weather information |
+| Vercel Functions | Server-side chatbot endpoint |
+| Git and GitHub | Version control and source code hosting |
 | Vercel | Website hosting and deployment |
 
 ## Project Structure
 
 ```text
 portfolio/
-├── index.html       # Main webpage
-├── style.css        # Styles and responsive layout
-├── script.js        # Interactive functionality
-└── README.md        # Project documentation
+├── api/
+│   └── chat.js             # Serverless chatbot endpoint
+├── images/
+│   └── profile.jpg         # Portfolio profile image
+├── index.html              # Main webpage
+├── style.css               # Main website styling
+├── script.js               # Theme, weather, and page interactions
+├── chatbot.css             # Chatbot styling
+├── chatbot.js              # Chatbot frontend logic
+├── .gitignore              # Excludes local and sensitive files
+└── README.md               # Project documentation
 ```
+
+This structure describes the main application files. Additional files may exist in the repository.
 
 ## Getting Started
 
-You can run the portfolio locally without installing any additional packages or dependencies.
-
 ### Prerequisites
 
+- Git
 - A modern web browser
-- Git (optional, for cloning the repository)
+- Node.js and npm for running the Vercel development environment
+- A Groq API key for the AI chatbot
+- An OpenWeather API key for the weather checker
 
-### Installation
+### 1. Clone the repository
 
-1. Clone the repository:
+```bash
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+cd <YOUR_REPOSITORY_NAME>
+```
 
-   ```bash
-   git clone <YOUR_GITHUB_REPOSITORY_URL>
-   ```
+Replace the placeholders with your actual GitHub repository URL and directory name.
 
-2. Navigate to the project directory:
+### 2. Install the Vercel CLI
 
-   ```bash
-   cd <YOUR_REPOSITORY_NAME>
-   ```
+```bash
+npm install -g vercel
+```
 
-3. Open `index.html` in your web browser.
+### 3. Configure environment variables
 
-Alternatively, use the Live Server extension in Visual Studio Code for local development.
+Create a local `.env` file in the project root for development:
+
+```env
+GROQ_API_KEY=your_groq_api_key
+```
+
+Replace the placeholder with your actual Groq API key. Do not commit this file to GitHub.
+
+The chatbot backend reads the key from `process.env.GROQ_API_KEY`.
+
+For local development, configure the variable in your terminal or local environment as appropriate. If using Vercel's local environment workflow, you can also use:
+
+```bash
+vercel env pull .env.local
+```
+
+This command requires the project to be linked to Vercel and the variable to be configured in the Vercel project.
+
+### 4. Configure the weather API
+
+The weather checker requires an OpenWeather API key. Configure it according to the implementation in `script.js`.
+
+If the key is currently embedded in frontend JavaScript, understand that it is publicly visible to website visitors. Restrict it through the provider's available controls or move weather requests to a server-side endpoint if stronger key protection is required.
+
+### 5. Run the project locally
+
+From the project root, run:
+
+```bash
+vercel dev
+```
+
+Follow the CLI prompts to link the project if necessary. Open the local URL provided by the CLI.
+
+Using Vercel's development environment allows the `/api/chat` serverless endpoint to run locally. Opening `index.html` directly through a `file://` URL will not run that backend endpoint.
 
 ## Deployment
 
-The portfolio is hosted on Vercel, with its source code maintained on GitHub.
+The portfolio is deployed on Vercel.
+
+**Live deployment:** [https://portfolio-sandy-two-2h1yeodf5u.vercel.app](https://portfolio-sandy-two-2h1yeodf5u.vercel.app)
 
 To deploy your own copy:
 
-1. Push the project files to a GitHub repository.
+1. Push the project to a GitHub repository.
 2. Import the repository into Vercel.
-3. Deploy the project using the default settings for a static website.
-4. Open the generated deployment URL to view the website.
+3. Configure the required environment variables in the Vercel project settings.
+4. Deploy the application.
+5. Test the portfolio, weather checker, and chatbot on the deployed URL.
 
-For a project connected to Vercel through GitHub, new commits can trigger automatic deployments according to the project's deployment settings.
+### Required Vercel Environment Variable
+
+| Variable | Purpose |
+|---|---|
+| `GROQ_API_KEY` | Authenticates server-side requests to the Groq API |
+
+Add this variable under **Vercel → Project Settings → Environment Variables**. Enable it for the environments you intend to use, such as Production and Preview, then redeploy after making changes.
+
+Do not use a public frontend variable for the Groq API key.
+
+For a GitHub-connected Vercel project, pushes to the configured production branch can trigger automatic deployments.
+
+## Security Notes
+
+- Never commit API keys, passwords, or private environment files to GitHub.
+- Keep `GROQ_API_KEY` on the server and access it through `process.env`.
+- Ensure `.env` and `.env.local` are ignored by Git.
+- Do not rely on `.gitignore` to remove secrets that were already committed.
+- If an API key has been exposed publicly, rotate it through the provider.
+- Public serverless endpoints can be abused. Consider adding rate limiting and usage controls to protect API quotas.
+- Frontend API keys, including weather service keys, should be treated as visible to visitors.
 
 ## Customization
 
-You can personalize the portfolio by editing the following files:
+The main application files can be edited as follows:
 
-- **`index.html`** — Update the introduction, skills, project links, and other content.
-- **`style.css`** — Change the colors, typography, spacing, layout, and dark-mode theme.
-- **`script.js`** — Modify the interactive behavior and theme toggle.
+| File | Responsibility |
+|---|---|
+| `index.html` | Page content, sections, and script references |
+| `style.css` | Main layout, typography, colors, and theme styling |
+| `script.js` | Theme switching, weather requests, project search, and general interactions |
+| `chatbot.css` | Chatbot appearance and responsive styling |
+| `chatbot.js` | Message rendering, conversation history, and requests to the backend |
+| `api/chat.js` | Server-side AI request handling |
+| `images/` | Profile image and other local image assets |
+| `README.md` | Project documentation |
 
-Replace any placeholder project entries with real project names, working repository links, and accurate descriptions before publishing.
+## Troubleshooting
 
-## Future Improvements
+### The chatbot is unavailable
 
-Potential improvements for future versions include:
+- Confirm that `GROQ_API_KEY` is configured in the relevant Vercel environment.
+- Check that `api/chat.js` exists in the project root's `api` directory.
+- Inspect the browser's Network panel for errors from `/api/chat`.
+- Check Vercel function logs for server-side errors.
+- Verify that the selected Groq model is available to your account.
 
-- Adding verified project demonstrations and repository links.
-- Improving accessibility and keyboard navigation.
-- Adding a dedicated project details section.
-- Refining the layout and user experience across devices.
+### The weather checker does not work
+
+- Check the browser console and Network panel.
+- Confirm that the OpenWeather API key is valid and active.
+- Check whether the requested city name is valid.
+- Review the API provider's usage limits.
+
+### Changes do not appear on the live website
+
+- Confirm that your changes have been committed and pushed to the correct branch.
+- Check the deployment status in Vercel.
+- Confirm that the latest deployment corresponds to the expected Git commit.
+- Hard-refresh the browser to rule out cached frontend assets.
 
 ## Author
 
@@ -106,6 +218,7 @@ Potential improvements for future versions include:
 
 - **GitHub:** [HARSH1-rgb](https://github.com/HARSH1-rgb)
 - **Portfolio:** [Live Website](https://portfolio-sandy-two-2h1yeodf5u.vercel.app)
+- **Email:** harhsjangid915@gmail.com
 
 ## License
 
