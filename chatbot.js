@@ -1,4 +1,3 @@
-
 const form = document.getElementById("chatForm");
 const input = document.getElementById("chatInput");
 const messages = document.getElementById("chatMessages");
@@ -125,22 +124,6 @@ form.addEventListener("submit", async (event) => {
       throw new Error("The AI returned an empty answer.");
     }
 
-// Save both sides of the conversation for follow-up questions.
-conversationHistory.push(
-  { role: "user", content: question },
-  { role: "assistant", content: answer }
-);
-
-// Keep only the most recent Two messages.
-if (conversationHistory.length > 2) {
-  conversationHistory.splice(
-    0,
-    conversationHistory.length - 2
-  );
-}
-
-showMessage(answer, "bot");
-statusText.textContent = "";
     // Save the question and answer for follow-up questions.
     conversationHistory.push(
       { role: "user", content: question },
@@ -155,13 +138,16 @@ statusText.textContent = "";
       );
     }
 
+    // Display the AI response exactly once.
     showMessage(answer, "bot");
     statusText.textContent = "";
+
   } catch (error) {
     console.error("Chat error:", error);
 
     statusText.textContent =
       error.message || "Chat unavailable. Please try again.";
+
   } finally {
     sendButton.disabled = false;
   }
