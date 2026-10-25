@@ -77,3 +77,37 @@ weatherButton.addEventListener("click", getWeather);
 cityInput.addEventListener("keydown", (event) => {
 if (event.key === "Enter") getWeather();
 });
+
+const projectSearch = document.getElementById("projectSearch");
+const projectItems = document.querySelectorAll(".projects-list li");
+const projectSearchEmpty = document.getElementById("projectSearchEmpty");
+
+function filterProjects() {
+  if (!projectSearch || !projectItems.length) {
+    return;
+  }
+
+  const query = projectSearch.value.trim().toLowerCase();
+  let visibleCount = 0;
+
+  projectItems.forEach((item) => {
+    const title = item.querySelector(".project-title")?.textContent || "";
+    const description = item.querySelector(".project-description")?.textContent || "";
+    const technologies = item.getAttribute("data-technologies") || "";
+    const haystack = `${title} ${description} ${technologies}`.toLowerCase();
+    const matches = query === "" || haystack.includes(query);
+
+    item.classList.toggle("is-hidden", !matches);
+    if (matches) {
+      visibleCount += 1;
+    }
+  });
+
+  if (projectSearchEmpty) {
+    projectSearchEmpty.hidden = visibleCount > 0;
+  }
+}
+
+if (projectSearch) {
+  projectSearch.addEventListener("input", filterProjects);
+}

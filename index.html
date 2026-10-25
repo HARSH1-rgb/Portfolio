@@ -11,12 +11,13 @@
     <header class="site-header">
       <p class="eyebrow">Personal Profile</p>
       <h1>Harsh Jangid</h1>
-      <p class="tagline">Software Engineer| Fullstack developer</p>
+      <p class="tagline">Computer Science Student | Developer in Progress</p>
       <nav aria-label="Primary">
         <ul>
           <li><a href="#about">About</a></li>
           <li><a href="#skills">Skills</a></li>
           <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
     </header>
@@ -24,10 +25,23 @@
     <main>
       <section id="about" aria-labelledby="about-heading">
         <h2 id="about-heading">About</h2>
-        <p>
-          Hello, I am Harsh Jangid. I live in Jaipur, Rajasthan, India
-          and enjoy reading, Coding and building web apps and Software Projects.
-        </p>
+        <div class="about-layout">
+          <img
+            class="profile-image"
+            src="images/profile.jpg"
+            alt="Profile image of Harsh Jangid"
+            width="160"
+            height="160"
+          />
+          <div class="about-copy">
+            <p>
+              Hello, I’m Harsh Jangid, a Computer Science Engineering student at JECRC University, Jaipur, Rajasthan, India. I enjoy exploring software development, solving programming problems, and turning ideas into practical projects while continuously learning and improving my approach to coding.
+            </p>
+            <p>
+              I’m currently focused on developing my skills through hands-on projects, from building interactive web applications to debugging and improving existing code. My goal is to gain practical experience through internships and freelance opportunities, grow into a full-stack developer, and eventually work on more complex software systems involving backend development, system design, and AI integration.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section id="skills" aria-labelledby="skills-heading">
@@ -35,7 +49,7 @@
         <ul class="skills-list">
           <li>HTML</li>
           <li>CSS</li>
-          <li>MySQL</li>
+          <li>JavaScript</li>
           <li>Python</li>
           <li>C</li>
           <li>C++</li>
@@ -44,25 +58,84 @@
 
       <section id="projects" aria-labelledby="projects-heading">
         <h2 id="projects-heading">Projects</h2>
-        <ul class="projects-list">
-          <li>
-            <a href="https://github.com/HARSH1-rgb/ReadingBook_app-25BCON1092">
-              Reading Book App
-            </a>
-            <p>This is a reading book app that allows you to add which book you have read and save your progress.
-              I have used HTML, CSS, and JavaScript to build this app.</p>
+        <div class="project-search">
+          <label class="visually-hidden" for="projectSearch">Search projects</label>
+          <input
+            id="projectSearch"
+            type="search"
+            placeholder="Search projects by title, description, or technology"
+            autocomplete="off"
+            aria-controls="projects-list"
+          />
+        </div>
+        <p id="projectSearchEmpty" class="project-search-empty" hidden>
+          No projects match your search.
+        </p>
+        <ul id="projects-list" class="projects-list">
+          <li class="project-card" data-technologies="C++ Python">
+            <h3 class="project-title">
+              <a href="https://github.com/HARSH1-rgb/python-basics-25bcon1092-factorial" target="_blank" rel="noopener noreferrer">
+                C++ to Python Program Conversion
+              </a>
+            </h3>
+            <p class="project-description">
+              A collection of three basic programming exercises converted from C++ to Python, covering factorial calculation, Fibonacci series generation, and the conversion of C++ structures into Python dictionaries.
+            </p>
+            <p class="project-tech">C++ · Python</p>
+            <p class="project-links">
+              Repositories:
+              <a href="https://github.com/HARSH1-rgb/python-basics-25bcon1092-factorial" target="_blank" rel="noopener noreferrer">Factorial</a>
+              <a href="https://github.com/HARSH1-rgb/python-basics-25bcon1092-fibonacci" target="_blank" rel="noopener noreferrer">Fibonacci</a>
+              <a href="https://github.com/HARSH1-rgb/python-basics-25bcon1092-struct-to--dict" target="_blank" rel="noopener noreferrer">Struct to Dictionary</a>
+            </p>
           </li>
-          <li>
-            <a href="https://github.com/HARSH1-rgb/python-basics-25bcon1092-factorial">
-              Factorial Program
-            </a>
-            <p>A simple factorial program to calculate factorial of a given Number</p>
+          <li class="project-card" data-technologies="Python">
+            <h3 class="project-title">
+              <a href="https://github.com/HARSH1-rgb/Buggy-python-25BCON1092" target="_blank" rel="noopener noreferrer">
+                Python Debugging and Testing
+              </a>
+            </h3>
+            <p class="project-description">
+              A Python programming assignment focused on identifying and correcting errors in existing code. The project also includes a test file to verify the corrected program's behavior and check whether it works as expected.
+            </p>
+            <p class="project-tech">Python</p>
           </li>
-          <li>
-            <a href="https://github.com/HARSH1-rgb/python-basics-25bcon1092-fibonacci">
-              Fibonacci Program
-            </a>
-            <p>A simple Fibonacci program to show fibonacci or a number</p>
+          <li class="project-card" data-technologies="Python">
+            <h3 class="project-title">
+              <a href="https://github.com/HARSH1-rgb/Messy-Python_code-25BCON1092" target="_blank" rel="noopener noreferrer">
+                Python Code Refactoring with Cursor AI
+              </a>
+            </h3>
+            <p class="project-description">
+              A Python program focused on improving the structure and readability of an existing messy Python program using Cursor AI, while preserving its original output and intended behavior.
+            </p>
+            <p class="project-tech">Python</p>
+          </li>
+          <li class="project-card" data-technologies="HTML CSS JavaScript">
+            <h3 class="project-title">
+              <a href="https://github.com/HARSH1-rgb/Queez-25BCON1092" target="_blank" rel="noopener noreferrer">
+                Queez
+              </a>
+            </h3>
+            <p class="project-description">
+              A quiz-based web project built using HTML, JavaScript, and CSS, with the initial HTML and JavaScript developed independently and Cursor AI used to create the CSS styling.
+            </p>
+            <p class="project-tech">HTML · CSS · JavaScript</p>
+          </li>
+          <li class="project-card" data-technologies="HTML CSS JavaScript">
+            <h3 class="project-title">
+              <a href="https://github.com/HARSH1-rgb/ReadingBook_app-25BCON1092" target="_blank" rel="noopener noreferrer">
+                Reading Book App
+              </a>
+            </h3>
+            <p class="project-description">
+              A web application for keeping track of books read and saving reading progress, built using HTML, CSS, and JavaScript.
+            </p>
+            <p class="project-tech">HTML · CSS · JavaScript</p>
+            <p class="project-links">
+              Live:
+              <a href="https://readingbookapp-25bcon1092.vercel.app" target="_blank" rel="noopener noreferrer">readingbookapp-25bcon1092.vercel.app</a>
+            </p>
           </li>
         </ul>
       </section>
@@ -87,14 +160,30 @@
           </form>
           <p id="chatStatus" aria-live="polite"></p>
           </section>
+      <section id="contact" aria-labelledby="contact-heading">
+        <h2 id="contact-heading">Contact</h2>
+        <p class="contact-intro">
+          Reach me by email or GitHub. Other profiles are shown only when a URL is available.
+        </p>
+        <ul class="contact-links">
+          <li>
+            <a class="contact-card" href="mailto:harhsjangid915@gmail.com">
+              <span class="contact-label">Email</span>
+              <span class="contact-value">harhsjangid915@gmail.com</span>
+            </a>
+          </li>
+          <li>
+            <a class="contact-card" href="https://github.com/HARSH1-rgb" target="_blank" rel="noopener noreferrer">
+              <span class="contact-label">GitHub</span>
+              <span class="contact-value">github.com/HARSH1-rgb</span>
+            </a>
+          </li>
+        </ul>
+      </section>
     </main>
 
     <footer class="site-footer">
-      <p>
-        Contact:
-        <a href="mailto:harhsjangid915@gmail.com">harhsjangid915@gmail.com</a>
-      </p>
-      <p>&copy; <span id="year"></span>Harsh Jangid</p>
+      <p>&copy; <span id="year"></span> Harsh Jangid</p>
     </footer>
     <button id="themeToggle">Switch to Dark Mode</button>
     <script src="script.js"></script>
