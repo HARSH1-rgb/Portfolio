@@ -161,7 +161,7 @@ conversationHistory.push(
   { role: "assistant", content: answer }
 );
 
-// Keep only the most recent eight messages.
+// Keep only the most recent Two messages.
 if (conversationHistory.length > 2) {
   conversationHistory.splice(
     0,
