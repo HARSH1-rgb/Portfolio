@@ -5,13 +5,16 @@ const messages = document.getElementById("chatMessages");
 const statusText = document.getElementById("chatStatus");
 const sendButton = document.getElementById("chatSend");
 
-// Store conversation history for the current page session.
+// Keep only the latest two conversation messages.
 const conversationHistory = [];
 
 // Display a message in the chat window.
 function showMessage(text, kind) {
   const p = document.createElement("p");
-  p.className = kind === "user" ? "user-message" : "bot-message";
+
+  p.className =
+    kind === "user" ? "user-message" : "bot-message";
+
   p.textContent = text;
   messages.appendChild(p);
   messages.scrollTop = messages.scrollHeight;
@@ -42,13 +45,13 @@ function getPortfolioContext() {
     .join("\n\n");
 }
 
-// Handle simple greetings without using API tokens.
+// Handle simple greetings locally without using API tokens.
 function isSimpleGreeting(text) {
   return /^(hi|hello|hey|hii|hiii|yo|good morning|good afternoon|good evening|howdy)[!.?,\s]*$/i
     .test(text.trim());
 }
 
-// Main chatbot handler — keep only ONE copy.
+// Handle chat submissions.
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -59,31 +62,32 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
+  // Prevent multiple simultaneous requests.
+  if (sendButton.disabled) return;
+
   showMessage(question, "user");
   input.value = "";
 
-  // Greetings are answered locally without an API request.
+  // Answer greetings locally.
   if (isSimpleGreeting(question)) {
-    showMessage(
-      "Hi! 👋 Ask me about my skills, projects, or background.",
-      "bot"
-    );
-    statusText.textContent = "";
-    conversationHistory.push(
-        { role: "user", content: question },
-        {
-          role: "assistant",
-          content: "Hi! Ask me about my skills, projects, or background."
-        }
-      );
-    return;
-  }
+    const greeting =
+      "Hi! 👋 Ask me about my skills, projects, or background.";
 
-  if (
-    !CONFIG.apiKey ||
-    CONFIG.apiKey === "PASTE_YOUR_GROQ_API_KEY_HERE"
-  ) {
-    statusText.textContent = "Groq API key is missing.";
+    showMessage(greeting, "bot");
+
+    conversationHistory.push(
+      { role: "user", content: question },
+      { role: "assistant", content: greeting }
+    );
+
+    if (conversationHistory.length > 2) {
+      conversationHistory.splice(
+        0,
+        conversationHistory.length - 2
+      );
+    }
+
+    statusText.textContent = "";
     return;
   }
 
@@ -93,67 +97,33 @@ form.addEventListener("submit", async (event) => {
   try {
     const portfolioContext = getPortfolioContext();
 
-    const response = await fetch(
-      `${CONFIG.baseUrl}/chat/completions`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${CONFIG.apiKey}`
-        },
-        body: JSON.stringify({
-          model: CONFIG.model,
-          temperature: 0.3,
-          max_tokens: 120,
-          messages: [
-            {
-              role: "system",
-              content: `You are Harsh Jangid's portfolio assistant.
-          
-          Portfolio information:
-          ${portfolioContext}
-          
-          Instructions:
-          - Answer general knowledge questions as well as portfolio questions.
-          - Understand follow-up questions using the previous conversation.
-          - If the user says "it", "they", "that", or similar, use the conversation to identify what they mean.
-          - Never invent personal details or project features.
-          - If portfolio information is missing, say so.
-          - Keep answers concise, normally under 80 words.`
-            },
-            ...conversationHistory.slice(-2),
-            {
-              role: "user",
-              content: question
-            }
-          ]          
-        })
-      }
-    );
+    // Send the request to your Vercel backend.
+    // The Groq API key stays on the server.
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        question,
+        portfolioContext,
+        history: conversationHistory.slice(-2),
+      }),
+    });
+
+    const data = await response.json();
 
     if (!response.ok) {
-      const errorBody = await response.text();
-
-      console.error(
-        "Groq API error:",
-        response.status,
-        errorBody
-      );
-
       throw new Error(
-        `HTTP ${response.status}: ${errorBody}`
+        data.error || `Chat request failed (${response.status}).`
       );
     }
 
-    const data = await response.json();
-    const answer = data.choices?.[0]?.message?.content?.trim();
+    const answer = data.answer;
 
-if (!answer) {
-  console.error("Unexpected Groq response:", data);
-  throw new Error(
-    "The AI returned an empty answer. Check the browser console."
-  );
-}
+    if (typeof answer !== "string" || !answer.trim()) {
+      throw new Error("The AI returned an empty answer.");
+    }
 
 // Save both sides of the conversation for follow-up questions.
 conversationHistory.push(
@@ -171,12 +141,27 @@ if (conversationHistory.length > 2) {
 
 showMessage(answer, "bot");
 statusText.textContent = "";
+    // Save the question and answer for follow-up questions.
+    conversationHistory.push(
+      { role: "user", content: question },
+      { role: "assistant", content: answer }
+    );
 
+    // Keep only the latest two messages.
+    if (conversationHistory.length > 2) {
+      conversationHistory.splice(
+        0,
+        conversationHistory.length - 2
+      );
+    }
 
+    showMessage(answer, "bot");
     statusText.textContent = "";
   } catch (error) {
+    console.error("Chat error:", error);
+
     statusText.textContent =
-      "Chat unavailable. " + error.message;
+      error.message || "Chat unavailable. Please try again.";
   } finally {
     sendButton.disabled = false;
   }
